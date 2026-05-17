@@ -1,0 +1,35 @@
+﻿<div class="content-area" *ngIf="org">
+  <div class="page-header">
+    <div class="page-header-top">
+      <app-breadcrumb></app-breadcrumb>
+      <div class="last-updated">Last updated: {{ lastUpdated }}</div>
+    </div>
+    <h2 class="title">{{ org?.name }}</h2>
+    <div class="subtitle">
+      Aggregated site health based on edge device availability.
+    </div>
+  </div>
+  <div class="grid-5 mt-20">
+    <app-stat-card *ngFor="let stat of stats" [label]="stat.label" [value]="stat.value" [color]="stat.color">
+    </app-stat-card>
+  </div>
+  <div class="mt-20">
+    <app-table-card title="Sites" [columns]="tableColumns" [rows]="org.sites">
+      <ng-template #tableRow let-row>
+        <td>
+          <a (click)="navigateToSite(row)" style="cursor: pointer;">
+            {{ row.name }}
+          </a>
+        </td>
+        <td>{{ row.totalEdgeDevices }}</td>
+        <td>
+          <app-status-pill [status]="row.status">
+          </app-status-pill>
+        </td>
+        <td>{{ row.healthyDevices }}</td>
+        <td>{{ row.degradedDevices }}</td>
+        <td>{{ row.downDevices }}</td>
+      </ng-template>
+    </app-table-card>
+  </div>
+</div>

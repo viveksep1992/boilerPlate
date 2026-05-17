@@ -1,0 +1,26 @@
+.breadcrumb {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.breadcrumb a {
+  color: rgba(0, 0, 0, 0.6);
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  color: #111827;
+  text-decoration: underline;
+}
+
+.breadcrumb .current {
+  color: rgba(0, 0, 0, 0.8);
+  font-weight: 500;
+}
+
+.breadcrumb .sep {
+  color: rgba(0, 0, 0, 0.3);
+}

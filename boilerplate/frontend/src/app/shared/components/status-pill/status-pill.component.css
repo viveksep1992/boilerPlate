@@ -1,0 +1,24 @@
+.badge {
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.healthy,
+.online,
+.up {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.degraded {
+  background: #ffedd5;
+  color: #d97706;
+}
+
+.down,
+.offline {
+  background: #fee2e2;
+  color: #dc2626;
+}

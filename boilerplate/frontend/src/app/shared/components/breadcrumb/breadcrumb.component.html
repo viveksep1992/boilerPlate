@@ -1,0 +1,35 @@
+<nav class="breadcrumb" *ngIf="(dynamicItems?.length || items?.length || breadcrumbs.length) > 0">
+  <ng-container *ngIf="dynamicItems?.length; else staticItems">
+    <ng-container *ngFor="let item of dynamicItems; let last = last">
+      <a *ngIf="!last && item.url" [routerLink]="item.url" class="link">
+        {{ item.label }}
+      </a>
+      <span *ngIf="last || !item.url" class="current">
+        {{ item.label }}
+      </span>
+      <span *ngIf="!last" class="sep">→</span>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #staticItems>
+    <ng-container *ngIf="items?.length; else routeBreadcrumbs">
+      <ng-container *ngFor="let item of items; let last = last">
+        <span *ngIf="!last">{{ item }}</span>
+        <span *ngIf="last" class="current">{{ item }}</span>
+        <span *ngIf="!last" class="sep">→</span>
+      </ng-container>
+    </ng-container>
+  </ng-template>
+
+  <ng-template #routeBreadcrumbs>
+    <ng-container *ngFor="let item of breadcrumbs; let last = last">
+      <a *ngIf="!last" [routerLink]="item.url">
+        {{ item.label }}
+      </a>
+      <span *ngIf="last" class="current">
+        {{ item.label }}
+      </span>
+      <span *ngIf="!last" class="sep">→</span>
+    </ng-container>
+  </ng-template>
+</nav>

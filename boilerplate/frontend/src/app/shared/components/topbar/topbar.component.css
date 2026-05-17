@@ -1,0 +1,31 @@
+.topbar {
+  height: 72px;
+  background: white;
+  border-bottom: 1px solid #dce3ee;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 24px;
+}
+
+.left h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.right {
+  display: flex;
+  gap: 12px;
+}
+
+.chip {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid #dce3ee;
+  font-size: 13px;
+  font-weight: 600;
+  background: #f8fafc;
+}

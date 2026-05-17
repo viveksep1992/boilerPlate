@@ -1,0 +1,31 @@
+<div class="card">
+
+    <div class="card-header">
+        <h3>{{ title }}</h3>
+    </div>
+
+    <table class="table mt-20">
+
+        <thead>
+            <tr>
+
+                <th *ngFor="let column of columns">
+                    {{ column }}
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let row of rows">
+                <ng-container *ngTemplateOutlet="
+            rowTemplate;
+            context: { $implicit: row }">
+                </ng-container>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>

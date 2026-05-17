@@ -1,0 +1,55 @@
+﻿<div class="content-area" *ngIf="summary">
+	<div class="page-header">
+		<div class="page-header-top">
+			<app-breadcrumb></app-breadcrumb>
+			<div class="last-updated">
+				Last updated: {{ lastUpdated }}
+			</div>
+		</div>
+		<h2 class="title">SD-WAN Dashboard</h2>
+		<div class="subtitle">
+			High level health summary across the tenant, sites and edge devices.
+		</div>
+	</div>
+
+	<div class="grid-5 mt-20">
+		<app-stat-card *ngFor="let stat of stats" [label]="stat.label" [value]="stat.value" [color]="stat.color">
+		</app-stat-card>
+	</div>
+
+	<div class="grid-2 mt-20">
+
+		<app-chart-card title="Sites by Status">
+			<div echarts [options]="siteChartOptions" class="chart-lg">
+			</div>
+		</app-chart-card>
+
+		<app-chart-card title="Edge Devices by Status">
+			<div echarts [options]="deviceChartOptions" class="chart-lg">
+			</div>
+		</app-chart-card>
+
+	</div>
+
+	<div class="mt-20">
+		<app-table-card title="Site Health Snapshot" [columns]="tableColumns" [rows]="summary?.sites || []">
+			<ng-template #tableRow let-row>
+				<td>
+					<!-- <a (click)="navigateToSite(row)" style="cursor: pointer;">
+						{{ row.name }}
+					</a> -->
+					{{ row.name }}
+				</td>
+				<td>
+					<app-status-pill [status]="row.status">
+					</app-status-pill>
+				</td>
+				<td>{{ row.totalDevices }}</td>
+				<td>{{ row.online }}</td>
+				<td>{{ row.offline }}</td>
+			</ng-template>
+
+		</app-table-card>
+	</div>
+
+</div>

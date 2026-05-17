@@ -1,0 +1,17 @@
+<div class="sidebar">
+  <div class="logo">SD-WAN Dashboard</div>
+
+  <nav>
+
+    <a *ngFor="let item of menuItems" [routerLink]="!item.disabled ? item.route : null" routerLinkActive="active"
+      [class.disabled]="item.disabled">
+      {{ item.label }}
+    </a>
+
+  </nav>
+
+  <div class="flow-box">
+    <span class="flow-title">FLOW</span>
+    <div class="flow-path">Organization → Site → Device</div>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+<div class="content-area" *ngIf="site">
+  <div class="page-header">
+    <div class="page-header-top">
+      <app-breadcrumb></app-breadcrumb>
+      <div class="last-updated">
+        Last updated: {{ lastUpdated }}
+      </div>
+    </div>
+    <div class="title-row">
+      <h2 class="title">{{ site.name }} </h2>
+      <app-status-pill [status]="site.status"></app-status-pill>
+    </div>
+    <div class="subtitle">
+      Edge device inventory and current availability for this site.
+    </div>
+  </div>
+  <div class="grid-5 mt-20">
+    <app-stat-card *ngFor="let stat of stats" [label]="stat.label" [value]="stat.value" [color]="stat.color">
+    </app-stat-card>
+  </div>
+  <div class="mt-20">
+    <app-table-card title="Edge Devices" [columns]="tableColumns" [rows]="site.edgeDevices">
+      <ng-template #tableRow let-row>
+        <td>
+          <a (click)="navigateToDeviceDetail(row)" style="cursor: pointer;">
+            {{ row.name }}
+          </a>
+        </td>
+        <td>{{ row.role }}</td>
+        <td>{{ row.uptime }}</td>
+        <td>
+          <app-status-pill [status]="row.status">
+          </app-status-pill>
+        </td>
+        <td>{{ row.systemIp }}</td>
+      </ng-template>
+    </app-table-card>
+  </div>
+</div>

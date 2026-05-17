@@ -1,0 +1,139 @@
+﻿<div class="content-area" *ngIf="device">
+	<div class="page-header">
+		<div class="page-header-top">
+			<app-breadcrumb></app-breadcrumb>
+			<div class="last-updated">
+				Last updated: {{ lastUpdated }}
+			</div>
+		</div>
+		<div class="title-row">
+			<h2 class="title">
+				{{ device.name }}
+			</h2>
+			<app-status-pill [status]="device.status">
+			</app-status-pill>
+		</div>
+		<div class="subtitle">
+			Link interface view and uplink history for the selected edge device.
+		</div>
+	</div>
+	<div class="grid-5 mt-20">
+		<app-stat-card class="device-stat-card" *ngFor="let stat of stats" [label]="stat.label" [value]="stat.value"
+			[color]="stat.color || ''">
+		</app-stat-card>
+	</div>
+
+	<div class="device-grid mt-20">
+		<!-- LEFT SIDE -->
+		<div class="custom-card">
+			<h3 class="card-title">
+				Port Status (Live)
+			</h3>
+
+			<!-- WAN -->
+			<div class="interface-group">
+				<h4 class="section-title">
+					WAN Interfaces
+				</h4>
+
+				<table class="table">
+					<tbody>
+						<tr *ngFor="let row of wanInterfaces">
+							<td>{{ row.name }}</td>
+							<td>
+								<app-status-pill [status]="row.status">
+								</app-status-pill>
+							</td>
+
+							<td>{{ row.ipAddress }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+
+			<!-- LAN -->
+
+			<div class="interface-group mt-20">
+				<h4 class="section-title">
+					LAN Interfaces
+				</h4>
+
+				<table class="table">
+					<tbody>
+						<tr *ngFor="let intf of lanInterfaces">
+
+							<td>{{ intf.name }}</td>
+							<td>
+								<app-status-pill [status]="intf.status">
+								</app-status-pill>
+							</td>
+							<td>{{ intf.ipAddress }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+
+
+		<!-- RIGHT SIDE -->
+		<div class="custom-card chart-wrapper">
+			<!-- HEADER -->
+			<div class="chart-header">
+				<div>
+					<h3 class="card-title">
+						Uplink Bandwidth (WAN1 & WAN2)
+					</h3>
+					<p class="chart-description">
+						WAN-only utilization history. LAN interfaces are intentionally excluded.
+					</p>
+				</div>
+
+				<div>
+					<label class="range-label">Time Range</label>
+					<select class="range-sel" [(ngModel)]="selectedRange">
+						<option *ngFor="let r of ranges">{{ r }}</option>
+					</select>
+				</div>
+
+			</div>
+
+			<!-- CHART -->
+			<div echarts [options]="bandwidthChart" class="bandwidth-chart">
+			</div>
+
+			<!-- STATS -->
+
+			<div class="bandwidth-stats">
+				<div class="bandwidth-card">
+					<span class="wan-label blue">
+						WAN1
+					</span>
+					<h3>
+						57 Mbps
+					</h3>
+					<p>
+						Average 57.3 Mbps
+					</p>
+					<p>
+						Peak 69 Mbps
+					</p>
+				</div>
+
+				<div class="bandwidth-card">
+					<span class="wan-label green">
+						WAN2
+					</span>
+					<h3>28 Mbps</h3>
+					<p>
+						Average 30.7 Mbps
+					</p>
+					<p>
+						Peak 38 Mbps
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

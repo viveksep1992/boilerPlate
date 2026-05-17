@@ -1,0 +1,36 @@
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-weight: 400;
+}
+
+.stat-label {
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.1;
+}
+
+:host-context(.device-detail-page) .stat-value {
+  font-size: 24px;
+}
+
+.green {
+  color: #16a34a;
+}
+
+.orange {
+  color: #d97706;
+}
+
+.red {
+  color: #dc2626;
+}
