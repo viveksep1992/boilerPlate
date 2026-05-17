@@ -3,7 +3,7 @@
 
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map, shareReplay } from 'rxjs';
+import { Observable, map, shareReplay, tap } from 'rxjs';
 
 // ── Raw JSON shape ────────────────────────────────────────────────────────────
 
@@ -60,7 +60,8 @@ export class SdwanDataService {
      */
     private payload$: Observable<SdwanPayload> = this.http
         .get<SdwanPayload>('/assets/sdwan-datasets.json')
-        .pipe(shareReplay(1));
+        .pipe(tap(raw => console.log('[ChartDataService] raw response:', raw)),  // ← add this
+            shareReplay(1));
 
     /** Raw payload — use when you need all metadata */
     getPayload(): Observable<SdwanPayload> {

@@ -100,9 +100,10 @@
 			</div>
 
 			<!-- CHART -->
-			<div echarts [options]="bandwidthChart" class="bandwidth-chart">
-			</div>
-
+			<ng-container *ngIf="chartsReady">
+				<div echarts [options]="bandwidthChartOptions" class="bandwidth-chart">
+				</div>
+			</ng-container>
 			<!-- STATS -->
 
 			<div class="bandwidth-stats">
@@ -111,27 +112,19 @@
 						WAN1
 					</span>
 					<h3>
-						57 Mbps
+						{{ wan1Current }} Mbps
 					</h3>
-					<p>
-						Average 57.3 Mbps
-					</p>
-					<p>
-						Peak 69 Mbps
-					</p>
+					<div class="stat-line">Average {{ wan1Avg }} Mbps</div>
+					<div class="stat-line">Peak {{ wan1Peak }} Mbps</div>
 				</div>
 
 				<div class="bandwidth-card">
 					<span class="wan-label green">
 						WAN2
 					</span>
-					<h3>28 Mbps</h3>
-					<p>
-						Average 30.7 Mbps
-					</p>
-					<p>
-						Peak 38 Mbps
-					</p>
+					<h3>{{ wan2Current }} Mbps</h3>
+					<div class="stat-line">Average {{ wan2Avg }} Mbps</div>
+					<div class="stat-line">Peak {{ wan2Peak }} Mbps</div>
 				</div>
 			</div>
 		</div>

@@ -17,22 +17,23 @@
 		</app-stat-card>
 	</div>
 
-	<div class="grid-2 mt-20">
+
+	<div class="grid-2 mt-20" *ngIf="chartsReady">
 
 		<app-chart-card title="Sites by Status">
-			<div echarts [options]="siteChartOptions" class="chart-lg">
+			<div echarts [options]="siteHealthOptions" class="chart-lg">
 			</div>
 		</app-chart-card>
 
 		<app-chart-card title="Edge Devices by Status">
-			<div echarts [options]="deviceChartOptions" class="chart-lg">
+			<div echarts [options]="edgeAvailOptions" class="chart-lg">
 			</div>
 		</app-chart-card>
 
 	</div>
 
 	<div class="mt-20">
-		<app-table-card title="Site Health Snapshot" [columns]="tableColumns" [rows]="summary?.sites || []">
+		<app-table-card title="Site Health Snapshot" [columns]="tableColumns" [rows]="summary.sites || []">
 			<ng-template #tableRow let-row>
 				<td>
 					<!-- <a (click)="navigateToSite(row)" style="cursor: pointer;">

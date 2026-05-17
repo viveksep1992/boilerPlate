@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { BandwidthPoint, DashboardSummary, EdgeDevice, HealthResponse, Organization, Site } from './models';
 import { Observable } from 'rxjs/internal/Observable';
@@ -252,7 +252,7 @@ const RAW: Organization = {
         },
       ],
     },
-  ],
+  ]
 };
 
 @Injectable({ providedIn: 'root' })
@@ -268,29 +268,42 @@ export class SdwanApiService {
 
   // Dashboard overview
   getDashboardSummary(): Observable<DashboardSummary> {
+    const sites = this.org.sites;
+
+    // compute everything from the actual data
+    const totalEdgeDevices = sites.reduce((s, x) => s + x.edgeDevices.length, 0);
+    const onlineDevices = sites.reduce((s, x) => s + x.edgeDevices.filter(d => d.status === 'ONLINE').length, 0);
+    const offlineDevices = sites.reduce((s, x) => s + x.edgeDevices.filter(d => d.status === 'OFFLINE').length, 0);
     const summary: DashboardSummary = {
-      totalSites: this.org.totalSites,
-      totalEdgeDevices: this.org.totalEdgeDevices,
-      healthySites: this.org.healthySites,
-      degradedSites: this.org.degradedSites,
-      downSites: this.org.downSites,
-      onlineDevices: this.org.sites.reduce((s, x) => s + x.onlineDevices, 0),
-      offlineDevices: this.org.sites.reduce((s, x) => s + x.offlineDevices, 0),
-      sites: this.org.sites.map(s => ({
+      totalSites: sites.length,
+      totalEdgeDevices,
+      healthySites: sites.filter(s => s.status === 'HEALTHY').length,
+      degradedSites: sites.filter(s => s.status === 'DEGRADED').length,
+      downSites: sites.filter(s => s.status === 'DOWN').length,
+      onlineDevices,
+      offlineDevices,
+      sites: sites.map(s => ({
         id: s.id,
         name: s.name,
         status: s.status,
-        totalDevices: s.totalEdgeDevices,
-        online: s.onlineDevices,
-        offline: s.offlineDevices,
+        totalDevices: s.edgeDevices.length,
+        online: s.edgeDevices.filter(d => d.status === 'ONLINE').length,
+        offline: s.edgeDevices.filter(d => d.status === 'OFFLINE').length,
       })),
     };
     return of(summary).pipe(delay(200));
   }
 
-  // Organization detail
-  getOrganization(): Observable<Organization> {
-    return of(this.org).pipe(delay(200));
+  getOrganization(): Observable<Organization & { totalSites: number; healthySites: number; degradedSites: number; downSites: number; totalEdgeDevices: number }> {
+    const sites = this.org.sites;
+    return of({
+      ...this.org,
+      totalSites: sites.length,
+      healthySites: sites.filter(s => s.status === 'HEALTHY').length,
+      degradedSites: sites.filter(s => s.status === 'DEGRADED').length,
+      downSites: sites.filter(s => s.status === 'DOWN').length,
+      totalEdgeDevices: sites.reduce((s, x) => s + x.edgeDevices.length, 0),
+    }).pipe(delay(200));
   }
 
   // Site detail
@@ -310,6 +323,18 @@ export class SdwanApiService {
   // All sites (for nav / listing)
   getAllSites(): Observable<Site[]> {
     return of(this.org.sites).pipe(delay(150));
+  }
+
+  getSiteHealthTrend(range: string, resolution: string) {
+
+    const params = new HttpParams()
+      .set('range', range)
+      .set('resolution', resolution);
+
+    return this.http.get(
+      `${this.baseUrl}/health/charts/site-health-trend?range=30d&resolution=raw`,
+      { params }
+    );
   }
 
 }
